@@ -1,0 +1,55 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Blog index{% endblock %}
+
+{% block body %}
+    <h1>Blog index</h1>
+
+    {{ form_start(searchForm) }}
+    {{ form_widget(searchForm) }}
+    <button class="btn btn-primary">Find</button>
+    {{ form_end(searchForm) }}
+<br/>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Owner</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Text</th>
+                <th>Percent</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for blog in pagination %}
+            <tr>
+                <td>{{ blog.id }}</td>
+                <td>{% if blog.user %}{{ blog.user.email }}{% endif %}</td>
+                <td>{{ blog.title }}</td>
+                <td>{{ blog.description | length > 50 ? blog.description | slice(0, 50) ~ '...' : blog.description }}</td>
+                <td>{{ blog.text | length > 50 ? blog.text | slice(0, 50) ~ '...' : blog.text }}</td>
+                <td>{{ blog.percent }}</td>
+                <td>
+                    <a href="{{ path('app_user_blog_edit', {'id': blog.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('app_blog_new') }}">Create new</a>
+    {% else %}
+        <a href="{{ path('app_user_blog_new') }}">Create new</a>
+    {% endif %}
+{% endblock %}

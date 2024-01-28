@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Blog{% endblock %}
+
+{% block body %}
+    <h1>Blog</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ blog.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ blog.title }}</td>
+            </tr>
+            {% if blog.category %}
+            <tr>
+                <th>Category</th>
+                <td>{{ blog.category.fullName | raw }}</td>
+            </tr>
+            {% endif %}
+            <tr>
+                <th>Description</th>
+                <td>{{ blog.description }}</td>
+            </tr>
+            <tr>
+                <th>Text</th>
+                <td>{{ blog.text }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_blog_index') }}">back to list</a>
+
+    <a href="{{ path('app_blog_edit', {'id': blog.id}) }}">edit</a>
+
+    {{ include('blog/_delete_form.html.twig') }}
+{% endblock %}
