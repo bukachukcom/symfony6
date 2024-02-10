@@ -3,7 +3,7 @@
 {% block title %}Blog index{% endblock %}
 
 {% block body %}
-    <h1>Blog index</h1>
+    <h4>Blog index</h4>
 
     {{ form_start(searchForm) }}
     {{ form_widget(searchForm) }}
@@ -48,8 +48,12 @@
     </div>
 
     {% if is_granted('ROLE_ADMIN') %}
-        <a href="{{ path('app_blog_new') }}">Create new</a>
+        <a href="{{ path('app_blog_new') }}">
+            <button type="button" class="btn btn-success">Create new</button>
+        </a>
     {% else %}
-        <a href="{{ path('app_user_blog_new') }}">Create new</a>
+        <a href="{{ path('app_user_blog_new') }}">
+            <button type="button" class="btn btn-success">Create new</button>
+        </a>
     {% endif %}
 {% endblock %}
