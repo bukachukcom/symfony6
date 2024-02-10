@@ -12,27 +12,24 @@
   </head>
   <body>
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-      <a class="navbar-brand" href="#">Menu</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
       <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
             <a class="nav-link" href="{{ url('blog_default') }}">Home <span class="sr-only">(current)</span></a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url('app_user_index') }}">Users</a>
-          </li>
+          {% if app.user is null %}
           <li class="nav-item">
             <a class="nav-link" href="{{ path('app_login') }}">Login</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ path('app_register') }}">Login</a>
+            <a class="nav-link" href="{{ path('app_register') }}">Register</a>
           </li>
+          {% endif %}
+          {% if app.user %}
           <li class="nav-item">
             <a class="nav-link" href="{{ path('_logout_main') }}">Logout</a>
           </li>
+          {% endif %}
         </ul>
         <form class="form-inline my-2 my-lg-0">
           <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">

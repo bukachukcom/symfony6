@@ -54,6 +54,8 @@ class BlogRepository extends ServiceEntityRepository
             ;
         }
 
+        $blogs->orderBy('b.id', 'DESC');
+
         return $blogs;
     }
 }
