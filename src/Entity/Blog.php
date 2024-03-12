@@ -3,16 +3,21 @@
 namespace App\Entity;
 
 use App\Repository\BlogRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\PersistentCollection;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: BlogRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Blog
 {
+    use TimestampableEntity;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -36,7 +41,7 @@ class Blog
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
-    private User|null $user = null;
+    private User|null $user;
 
     #[ORM\JoinTable(name: 'tags_to_blog')]
     #[ORM\JoinColumn(name: 'blog_id', referencedColumnName: 'id')]
@@ -47,9 +52,24 @@ class Blog
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
     private ?int $percent = null;
 
+    #[Assert\NotBlank]
+    #[ORM\Column(type: Types::STRING)]
+    private ?string $status = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?DateTime $blockedAt;
+
     public function __construct(UserInterface|User $user)
     {
         $this->user = $user;
+    }
+
+    #[ORM\PreUpdate]
+    public function setBlockedAtValue(): void
+    {
+        if ($this->status == 'blocked' && !$this->blockedAt) {
+            $this->blockedAt = new DateTime();
+        }
     }
 
     public function getId(): ?int
@@ -142,6 +162,30 @@ class Blog
     public function setPercent(?string $percent): static
     {
         $this->percent = $percent;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?string $status): static
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getBlockedAt(): ?DateTime
+    {
+        return $this->blockedAt;
+    }
+
+    public function setBlockedAt(?DateTime $blockedAt): static
+    {
+        $this->blockedAt = $blockedAt;
 
         return $this;
     }

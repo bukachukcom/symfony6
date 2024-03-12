@@ -6,14 +6,12 @@ use App\Entity\Blog;
 use App\Filter\BlogFilter;
 use App\Form\BlogFilterType;
 use App\Form\BlogType;
-use App\Message\ContentWatchJob;
 use App\Repository\BlogRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
@@ -42,8 +40,7 @@ class BlogController extends AbstractController
 
     #[Route('/new', name: 'app_user_blog_new', methods: ['GET', 'POST'])]
     public function new(Request $request,
-                        EntityManagerInterface $entityManager,
-                        MessageBusInterface $bus
+                        EntityManagerInterface $entityManager
     ): Response {
         $blog = new Blog($this->getUser());
         $form = $this->createForm(BlogType::class, $blog);
@@ -53,14 +50,12 @@ class BlogController extends AbstractController
             $entityManager->persist($blog);
             $entityManager->flush();
 
-            $bus->dispatch(new ContentWatchJob($blog->getId()));
-
             return $this->redirectToRoute('app_user_blog_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('blog/new.html.twig', [
             'blog' => $blog,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -79,7 +74,7 @@ class BlogController extends AbstractController
 
         return $this->render('blog/edit.html.twig', [
             'blog' => $blog,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 
