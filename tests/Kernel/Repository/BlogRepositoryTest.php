@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Kernel\App\Repository;
+namespace Tests\Kernel\Repository;
 
 use App\Factory\BlogFactory;
 use App\Factory\UserFactory;
@@ -21,14 +21,17 @@ class BlogRepositoryTest extends KernelTestCase
         $user = UserFactory::createOne();
 
         BlogFactory::createOne(['user' => $user, 'title' => 'blog title']);
-        BlogFactory::createMany(7, ['user' => $user]);
+        BlogFactory::createMany(5, ['user' => $user]);
 
         $blogRepository = static::getContainer()->get(BlogRepository::class);
 
+        /**
+         * @var $blogRepository BlogRepository
+         */
         $blogs = $blogRepository->getBlogs();
 
         $this->assertCount(6, $blogs);
 
-        $this->assertSame('blog title', $blogs[0]->getTitle());
+        $this->assertSame('blog title', $blogs[5]->getTitle());
     }
 }

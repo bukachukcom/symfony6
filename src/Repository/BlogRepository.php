@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Entity\Blog;
-use App\Entity\User;
 use App\Filter\BlogFilter;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -32,8 +31,14 @@ class BlogRepository extends ServiceEntityRepository
         return $this
             ->createQueryBuilder('b')
             ->setMaxResults(6)
+            ->orderBy('b.id', 'DESC')
             ->getQuery()
             ->getResult();
+    }
+
+    public function getByTitle(string $title): ?Blog
+    {
+        return $this->findOneBy(['title' => $title]);
     }
 
     public function findByBlogFilter(BlogFilter $blogFilter): QueryBuilder

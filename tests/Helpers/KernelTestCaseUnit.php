@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Foundry\Test\Factories;
 use Zenstruck\Foundry\Test\ResetDatabase;
 
-class WebTestCaseUnit  extends WebTestCase
+class KernelTestCaseUnit  extends WebTestCase
 {
     use ResetDatabase;
     use Factories;

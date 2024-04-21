@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Tests\Web\App\Controller;
+namespace Tests\Web\Controller;
 
 use App\Factory\BlogFactory;
 use App\Factory\UserFactory;
-use App\Tests\Helpers\WebTestCaseUnit;
+use Tests\Helpers\WebTestCaseUnit;
 
-class DefaultControllerTest extends WebTestCaseUnit
+final class DefaultControllerTest extends WebTestCaseUnit
 {
     public function testSomething(): void
     {
