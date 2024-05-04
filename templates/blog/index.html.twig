@@ -27,12 +27,13 @@
             <tr>
                 <td>{{ blog.id }}</td>
                 <td>{% if blog.user %}{{ blog.user.email }}{% endif %}</td>
-                <td>{{ blog.title }}</td>
+                <td><a href="{{ url('blog_view', {id: blog.id}) }}" target="_blank">{{ blog.title }}</a></td>
                 <td>{{ blog.description | length > 50 ? blog.description | slice(0, 50) ~ '...' : blog.description }}</td>
                 <td>{{ blog.text | length > 50 ? blog.text | slice(0, 50) ~ '...' : blog.text }}</td>
                 <td>{{ blog.percent }}</td>
                 <td>
                     <a href="{{ path('app_user_blog_edit', {'id': blog.id}) }}">edit</a>
+                    <a href="{{ path('app_user_blog_delete', {'id': blog.id}) }}">delete</a>
                 </td>
             </tr>
         {% else %}

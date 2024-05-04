@@ -1,9 +1,16 @@
 {% extends 'layout.html.twig' %}
 
 {% block body %}
-    <div class="row">
+    <div>
         <h3>{{ blog.title }}</h3>
         <p>{{ blog.text }}</p>
+        {% for comment in blog.comments %}
+            <p>{{ comment.id }}, {{ comment.text }}</p>
+        {% endfor %}
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button class="btn">{{ button_label|default('Save') }}</button>
+        {{ form_end(form) }}
     </div>
     <hr>
 {% endblock %}
