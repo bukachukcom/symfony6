@@ -1,0 +1,192 @@
+{
+	"info": {
+		"_postman_id": "6587d247-8370-4b68-832c-bcc5a9008c0f",
+		"name": "Blog",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Index page",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "{{hostname}}/api/blog",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"blog"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Filter blogs",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "{{hostname}}/api/blog/filter",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"blog",
+						"filter"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create blog",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Blog title\",\n    \"description\": \"Description\",\n    \"text\": \"Blog text\",\n    \"tags\": \"tag1, tag2, tag3\"\n}"
+				},
+				"url": {
+					"raw": "{{hostname}}/api/blog",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"blog"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update blog",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Blog title 1\",\n    \"description\": \"Description\",\n    \"text\": \"Blog text\",\n    \"tags\": \"tag1, tag2, tag3\"\n}"
+				},
+				"url": {
+					"raw": "{{hostname}}/api/blog/id/9",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"blog",
+						"id",
+						"9"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Blog title\",\n    \"description\": \"Description\",\n    \"text\": \"Blog text\",\n    \"tags\": \"tag1, tag2, tag3\"\n}"
+				},
+				"url": {
+					"raw": "{{hostname}}/api/login",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete blog",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Blog title\",\n    \"description\": \"Description\",\n    \"text\": \"Blog text\",\n    \"tags\": \"tag1, tag2, tag3\"\n}"
+				},
+				"url": {
+					"raw": "{{hostname}}/api/blog/id/1",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"blog",
+						"id",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

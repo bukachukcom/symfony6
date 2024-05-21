@@ -24,6 +24,9 @@ class BlogListener
     public function postFlush(PostFlushEventArgs $event): void
     {
         foreach ($this->entities as $entity) {
+            if (!$entity->getId()) {
+                continue;
+            }
             $this->bus->dispatch(new ContentWatchJob($entity->getId()));
         }
     }

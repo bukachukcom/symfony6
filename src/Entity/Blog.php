@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Dto\BlogDto;
 use App\Repository\BlogRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -12,6 +13,8 @@ use Doctrine\ORM\PersistentCollection;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Attribute\Ignore;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: BlogRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -19,31 +22,38 @@ class Blog
 {
     use TimestampableEntity;
 
+    #[Groups(['select_box'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(['select_box'])]
     #[Assert\NotBlank(message: 'Заголовок обязательный к заполнению')]
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
+    #[Groups(['select_box'])]
     #[Assert\NotBlank]
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
+    #[Groups(['select_box'])]
     #[Assert\NotBlank]
     #[ORM\Column(type: Types::TEXT)]
     private ?string $text = null;
 
+    #[Groups(['select_box'])]
     #[ORM\ManyToOne(targetEntity: Category::class)]
     #[ORM\JoinColumn(name: 'category_id', referencedColumnName: 'id')]
     private Category|null $category = null;
 
+    #[Ignore]
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
     private User|null $user;
 
+    #[Groups(['select_box'])]
     #[ORM\JoinTable(name: 'tags_to_blog')]
     #[ORM\JoinColumn(name: 'blog_id', referencedColumnName: 'id')]
     #[ORM\InverseJoinColumn(name: 'tag_id', referencedColumnName: 'id', unique: true)]
@@ -60,6 +70,7 @@ class Blog
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?DateTime $blockedAt;
 
+    #[Ignore]
     #[ORM\OneToMany(
         mappedBy: 'blog',
         targetEntity: Comment::class,
@@ -74,6 +85,18 @@ class Blog
         $this->status = 'pending';
         $this->user = $user;
         $this->comments = new ArrayCollection();
+    }
+
+    public static function createFromDto(UserInterface|User $user, BlogDto $blogDto): Blog
+    {
+        $blog = new self($user);
+
+        $blog
+            ->setTitle($blogDto->title)
+            ->setDescription($blogDto->description)
+            ->setText($blogDto->text);
+
+        return $blog;
     }
 
     #[ORM\PreUpdate]
@@ -230,5 +253,10 @@ class Blog
         }
 
         return $this;
+    }
+
+    public function getUserId(): int
+    {
+        return $this->getUser()->getId();
     }
 }

@@ -4,7 +4,7 @@
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
-        "php": ">=8.1",
+        "php": ">=8.2",
         "ext-ctype": "*",
         "ext-curl": "*",
         "ext-iconv": "*",
@@ -31,7 +31,7 @@
         "symfony/mailer": "6.4.*",
         "symfony/messenger": "6.4.*",
         "symfony/mime": "6.4.*",
-        "symfony/monolog-bundle": "^3.0",
+        "symfony/monolog-bundle": "^3.10",
         "symfony/notifier": "6.4.*",
         "symfony/process": "6.4.*",
         "symfony/property-access": "6.4.*",
@@ -103,6 +103,7 @@
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.5",
+        "helmich/phpunit-json-assert": "^3.5",
         "phpunit/phpunit": "^9.5",
         "symfony/browser-kit": "6.4.*",
         "symfony/css-selector": "6.4.*",

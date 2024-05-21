@@ -4,7 +4,7 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
-    autoblog: 28
+    autoblog: 1
 
 services:
     # default configuration for services in *this* file
@@ -26,6 +26,18 @@ services:
     App\Service\ContentWatchApi:
         $key: '%env(CONTENT_WATCH_API_KEY)%'
 
+    app.normalizer.object_normalizer:
+        class: Symfony\Component\Serializer\Normalizer\ObjectNormalizer
+        tags: [ 'serializer.normalizer' ]
+        arguments:
+            $propertyInfoExtractor: null
+            $defaultContext:
+                circular_reference_handler: '@App\Serializer\CircularReferenceHandler'
+                ignored_attributes: [ 'createdAt', 'updatedAt' ]
+                callbacks: {
+                    'updatedAt': '@App\Serializer\UpdatedAtCallback',
+                }
+
 knp_paginator:
     page_range: 5                       # number of links shown in the pagination menu (e.g: you have 10 pages, a page_range of 3, on the 5th page you'll see links to page 4, 5, 6)
     default_options:
@@ -39,3 +51,4 @@ knp_paginator:
         pagination: '@KnpPaginator/Pagination/twitter_bootstrap_v4_pagination.html.twig'     # sliding pagination controls template
         sortable: '@KnpPaginator/Pagination/sortable_link.html.twig' # sort link template
         filtration: '@KnpPaginator/Pagination/filtration.html.twig'  # filters template
+
